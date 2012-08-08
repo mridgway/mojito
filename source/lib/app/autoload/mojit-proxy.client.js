@@ -15,20 +15,7 @@
  */
 YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
-    var MJT_EVT_PRFX = 'mojit:',
-        DALI_API_METHODS;
-
-
-    // TODO: [Issue 71] Implement all these Dali API functions on the
-    // mojit proxy (but only when as need them :-)
-    DALI_API_METHODS = [
-        'broadcast', 'listen', 'unlisten', 'closeView', 'getViewNode',
-        'getViewDirection', 'isViewOpen', 'navigate', 'openView', 'makeRequest',
-        'refreshView', 'setView', 'abortRequest', 'error', 'getContextData',
-        'getId', 'getPref', 'getService', 'isRequestPending', 'setContextData',
-        'setPref'
-    ];
-
+    var MJT_EVT_PRFX = 'mojit:';
 
     /**
      * The object that is given to each mojit binder to be used to interact with
@@ -67,17 +54,6 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          * @type {Object}
          */
         this.context = opts.context;
-
-
-        Y.Array.each(DALI_API_METHODS, function(m) {
-            if (!this[m]) {
-                //Y.log('Stubbing Dali platform method: ' + m, 'debug', NAME);
-                this[m] = function() {
-                    // Mojito is not DALI
-                    throw new Error('Function not implemented: ' + m);
-                };
-            }
-        }, this);
     }
 
 
@@ -169,6 +145,8 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          */
         invoke: function(action, options, cb) {
             var callback, command, instance;
+
+            options = options || {};
 
             // If there are no options use it as the callback
             if ('function' === typeof options) {
@@ -296,7 +274,10 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          *     the dom.
          */
         destroyChild: function(id, retainNode) {
-            var slot, doomed, children = this.getChildren(), child = children[id];
+            var slot,
+                doomed, // viewid/dom id
+                children = this.getChildren(),
+                child = children[id];
 
             if (child) {
                 doomed = child.viewId;
@@ -306,6 +287,7 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
                 for (slot in children) {
                     if (children.hasOwnProperty(slot) && children[slot].viewId === id) {
                         doomed = id;
+                        break;
                     }
                 }
             }
@@ -332,10 +314,12 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          *     the dom.
          */
         destroyChildren: function(retainNode) {
-            var my = this;
-            Y.Object.each(this.getChildren(), function(child, childId) {
-                my.destroyChild(childId, retainNode);
-            });
+            var children = this.getChildren(), child;
+            for (child in children) {
+                if (children.hasOwnProperty(child)) {
+                    this.destroyChild(child, retainNode);
+                }
+            }
         },
 
 
@@ -384,8 +368,10 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
     };
 
-    Y.mojito.MojitProxy = MojitProxy;
+    Y.namespace('mojito').MojitProxy = MojitProxy;
 
 }, '0.1.0', {requires: [
-    'mojito-util'
+    'mojito',
+    'mojito-util',
+    'querystring'
 ]});

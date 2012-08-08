@@ -9,6 +9,9 @@
 /*global YUI*/
 
 
+/**
+ * @Module ViewEngines
+ */
 YUI.add('mojito-mu', function(Y, NAME) {
 
     var mu = YUI.require(__dirname + '/../../libs/Mulib/Mu'),
@@ -70,10 +73,10 @@ YUI.add('mojito-mu', function(Y, NAME) {
 
 
         compiler: function(tmpl) {
-            return JSON.stringify(fs.readFileSync(tmpl, 'utf8'));
+            return Y.JSON.stringify(fs.readFileSync(tmpl, 'utf8'));
         }
     };
 
     Y.namespace('mojito.addons.viewEngines').mu = MuAdapter;
 
-}, '0.1.0', {requires: []});
+}, '0.1.0', {requires: ['json-stringify']});

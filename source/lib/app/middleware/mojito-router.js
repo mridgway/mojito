@@ -11,7 +11,10 @@
 var logger,
     liburl = require('url'),
     RX_END_SLASHES = /\/+$/,
-    NAME = 'UriRouter';
+    NAME = 'UriRouter',
+    Y = require('yui').YUI({useSync: true}).use('json-parse', 'json-stringify');
+
+Y.applyConfig({useSync: false});
 
 
 function simpleMerge(to, from) {
@@ -52,7 +55,7 @@ Router.prototype = {
                 routes = store.getRoutes(context),
                 routeMaker = new RouteMakerClass(routes),
                 query = liburl.parse(req.url, true).query,
-                appConfig = store.getAppConfig(context, 'application'),
+                appConfig = store.getAppConfig(context),
                 url,
                 routeMatch;
 
@@ -103,14 +106,14 @@ Router.prototype = {
             //and is never a string here. i.e. this assert always passes:
             //require('assert').ok(typeof routeMatch.param !== 'string');
             command.params = {
-                route: simpleMerge(routeMatch.query, routeMatch.param),
+                route: simpleMerge(routeMatch.query, routeMatch.params),
                 url: query || {},
                 body: req.body || {},
                 file: {} // FUTURE: add multi-part file data here
             };
 
             // logger.log('Attaching command: ' +
-            //     JSON.stringify(command, null, 2), 'debug', 'uri-router');
+            //     Y.JSON.stringify(command, null, 2), 'debug', 'uri-router');
 
             // attach the command to the route for the Mojito handler to process
             req.command = command;

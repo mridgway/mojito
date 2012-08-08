@@ -14,7 +14,7 @@
  */
 YUI.add('mojito-output-adapter-addon', function(Y, NAME) {
 
-    var CHARSET = 'charset="utf-8"',
+    var CHARSET = 'charset=utf-8',
         // the functions this core addon is going to attach to the
         // ActionContext
         flush,
@@ -375,7 +375,7 @@ YUI.add('mojito-output-adapter-addon', function(Y, NAME) {
         ac.error = error;
     }
 
-    Y.mojito.addons.ac.core = Addon;
+    Y.namespace('mojito.addons.ac').core = Addon;
 
 }, '0.1.0', {requires: [
     'json-stringify',

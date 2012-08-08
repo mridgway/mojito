@@ -65,7 +65,7 @@ YUI.add('mojito-client-store', function(Y, NAME) {
         var onComplete = function(id, obj) {
             CACHE[url] = {};
             try {
-                CACHE[url] = JSON.parse(obj.responseText);
+                CACHE[url] = Y.JSON.parse(obj.responseText);
             } catch (err) {
                 flushQueue(url, err);
                 return;
@@ -191,7 +191,7 @@ YUI.add('mojito-client-store', function(Y, NAME) {
         /*
          * TODO: REVIEW RE [Issue 78]
          */
-        getAppConfig: function(context, name) {
+        getAppConfig: function(context) {
             return this.appConfig;
         },
 
@@ -204,7 +204,7 @@ YUI.add('mojito-client-store', function(Y, NAME) {
         }
     };
 
-    Y.mojito.ResourceStore = ClientStore;
+    Y.namespace('mojito').ResourceStore = ClientStore;
 
 }, '0.1.0', {requires: [
     'mojito-util',

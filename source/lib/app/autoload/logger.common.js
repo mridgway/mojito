@@ -70,7 +70,7 @@ YUI.add('mojito-logger', function(Y, NAME) {
             }
             msg = 'Error' + code + ': ' + msg.message + stack;
         } else if (Y.Lang.isObject(msg)) {
-            msg = JSON.stringify(msg, null, 2);
+            msg = Y.JSON.stringify(msg, null, 2);
         }
         source = source ? source + ': ' : '';
         return '[' + lvl.toUpperCase() + '] ' + ts + source + msg;
@@ -208,7 +208,7 @@ YUI.add('mojito-logger', function(Y, NAME) {
         }
     };
 
-    Y.mojito.Logger = Logger;
+    Y.namespace('mojito').Logger = Logger;
 
 }, '0.1.0', {requires: [
     'mojito'

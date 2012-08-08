@@ -28,19 +28,6 @@ Create a mojit:
 
     $ mojito create mojit HelloMojit
 
-Edit application.json to configure mojit so that it looks like:
-
-    [
-        {
-            "settings": [ "master" ],
-            "specs": {
-                "hello": {
-                    "type": "HelloMojit"
-                }
-            }
-        }
-    ]
-
 Start the server:
 
     $ mojito start
@@ -48,6 +35,14 @@ Start the server:
 Go to URL:
 
     http://localhost:8666/@HelloMojit/index
+
+Run Unit Tests:
+
+    $ mojito test app .
+
+Generate documentation:
+
+    $ mojito docs app hello
 
 ## Documentation
 
@@ -71,9 +66,9 @@ http://developer.yahoo.com/forum/Yahoo-Mojito
 
 ## Licensing and Contributions
 
-Mojito is licensed under a [BSD license](LICENSE.txt). To contribute to the Mojito project, please see [Contributing](docs/contributing.md). 
+Mojito is licensed under a [BSD license](https://github.com/yahoo/mojito/blob/master/LICENSE.txt). To contribute to the Mojito project, please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito). 
 
-The Mojito project is a [meritocratic, consensus-based community project](docs/governance-model.md) which allows anyone to contribute and gain additional responsibilities.
+The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model) which allows anyone to contribute and gain additional responsibilities.
 
 ## Third-party libraries
 
