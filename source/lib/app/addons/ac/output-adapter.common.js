@@ -114,12 +114,10 @@ YUI.add('mojito-output-adapter-addon', function(Y, NAME) {
                 //       the binder path rather than the binder module name.
                 Y.mix(instance.views[meta.view.name], (instance.views[meta.view.binder] || {}),
                       true, ['binder-url', 'binder-path', 'binder-module', 'binder-yui-sorted'], 0, false);
+            } else {
+                Y.log('Trying to attach an undefined binder with name=' + meta.view.binder, 'error', NAME);
             }
-            else {
-                Y.log ('Trying to attach an undefined binder with name='+meta.view.binder, 'error', NAME);
-            }
-        }
-        else {
+        } else {
             // default binder is based on the view name.
             meta.view.binder = meta.view.name;
         }
